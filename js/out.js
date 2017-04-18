@@ -9595,6 +9595,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       };
 
+      _this2.handleReset = function (event) {
+        event.preventDefault();
+        _this2.setState({
+          name: "",
+          email: ""
+        });
+      };
+
       _this2.state = {
         displayInput: "none",
         displayButton: "block",
@@ -9632,6 +9640,11 @@ document.addEventListener('DOMContentLoaded', function () {
               _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleNameChange }),
               _react2.default.createElement('input', { type: 'text', value: this.state.email, onChange: this.handleEmailChange }),
               _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+            ),
+            _react2.default.createElement(
+              'a',
+              { href: true, onClick: this.handleReset },
+              'Reset field'
             )
           ),
           newUsersItem

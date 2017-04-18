@@ -56,6 +56,15 @@ document.addEventListener('DOMContentLoaded', function(){
         newUsers: copyNewUsers
       });
     }
+
+    handleReset = (event) =>{
+      event.preventDefault();
+      this.setState({
+        name: "",
+        email: ""
+      });
+    }
+    
     render(){
       const newUsersItem = this.state.newUsers.map( (item) => {
         return <div>
@@ -70,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function(){
               <input type="text" value={this.state.email} onChange={this.handleEmailChange}/>
               <input type="submit" value="Submit"/>
             </form>
+            <a href onClick={this.handleReset}>Reset field</a>
           </div>
             {newUsersItem}
       </div>
