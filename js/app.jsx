@@ -6,12 +6,42 @@ import usersbase from './usersbase';
 document.addEventListener('DOMContentLoaded', function(){
 
   class UsersApp extends React.Component {
+    state = {
+      users: usersbase
+    };
+
+    handleSubmit = (e) => {
+      const { name, email } = e.target;
+      const { users } = this.state;
+      this.setState({
+        users: [
+          ...users,
+          {
+            name: name.value,
+            email: email.value,
+            id: Math.max(...Object.values(users.map((user) => user.id))) + 1
+          }
+        ]
+      });
+    };
+
+    handleDelete = (id) => {
+      this.setState({
+        users: [
+          ...this.state.users.filter((user) => user.id !== id)
+        ]
+      });
+    }
+
     render(){
       return <div>
-        <AddUsers/>
-        <UserList users={usersbase}/>
+        <AddUsers handleSubmit={ this.handleSubmit }/>
+        <UserList
+          handleDelete = { this.handleDelete }
+          users={ this.state.users }
+        />
       </div>
-    }
+    };
   }
   class AddUsers extends React.Component {
     constructor(props){
@@ -46,25 +76,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
     handleSubmit = (event) => {
       event.preventDefault();
-
-      let nameToAdd = this.state.name;
-      let emailToAdd = this.state.email;
-      let copyNewUsers = this.state.newUsers.slice();
-
-      copyNewUsers.unshift(nameToAdd, emailToAdd);
-      this.setState({
-        newUsers: copyNewUsers
-      });
+      this.props.handleSubmit(event);
+      this.handleReset();
     }
 
     handleReset = (event) =>{
-      event.preventDefault();
       this.setState({
         name: "",
         email: ""
       });
     }
-    
+
     render(){
       const newUsersItem = this.state.newUsers.map( (item) => {
         return <div>
@@ -75,8 +97,8 @@ document.addEventListener('DOMContentLoaded', function(){
           <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs}>Add User</button>
           <div style={{display: this.state.displayInput}}>
             <form onSubmit={this.handleSubmit}>
-              <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
-              <input type="text" value={this.state.email} onChange={this.handleEmailChange}/>
+              <input name="name" type="text" value={this.state.name} onChange={this.handleNameChange}/>
+              <input name="email" type="text" value={this.state.email} onChange={this.handleEmailChange}/>
               <input type="submit" value="Submit"/>
             </form>
             <a href onClick={this.handleReset}>Reset field</a>
@@ -93,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function(){
         users: this.props.users
         }
     }
+
     handleRowsDelete = (elem, index) => {
       let usersCopy = this.state.users;
       usersCopy.splice(index, 1);
@@ -101,13 +124,14 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     }
     render(){
-      const listItem = this.state.users.map( (element) => {
+      const listItem = this.props.users.map( (element) => {
         return <UserRow
-          key = {element.email}
+          key={element.email}
           number={element.id}
           userName={element.name}
           userEmail={element.email}
-          onRowDel={this.handleRowsDelete.bind(this)}/>
+          handleDelete={ this.props.handleDelete }
+        />
       });
       return <table>
         <thead>
@@ -124,11 +148,11 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
   class UserRow extends React.Component {
-  handleRowDel = (element) => {
-    if (typeof this.props.onRowDel == 'function') {
-      this.props.onRowDel(this.props.element);
-    }
+
+  handleDelete = () => {
+    this.props.handleDelete(this.props.number);
   }
+
   render(){
     return <tr>
             <td>
@@ -141,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function(){
               {this.props.userEmail}
             </td>
             <td>
-              <input type="button" value="Remove" onClick={this.handleRowDel.bind(this)}/>
+              <input type="button" value="Remove" onClick={ this.handleDelete }/>
             </td>
           </tr>
   }

@@ -9522,6 +9522,8 @@ var _usersbase2 = _interopRequireDefault(_usersbase);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -9535,9 +9537,40 @@ document.addEventListener('DOMContentLoaded', function () {
     _inherits(UsersApp, _React$Component);
 
     function UsersApp() {
+      var _ref;
+
+      var _temp, _this, _ret;
+
       _classCallCheck(this, UsersApp);
 
-      return _possibleConstructorReturn(this, (UsersApp.__proto__ || Object.getPrototypeOf(UsersApp)).apply(this, arguments));
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = UsersApp.__proto__ || Object.getPrototypeOf(UsersApp)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+        users: _usersbase2.default
+      }, _this.handleSubmit = function (e) {
+        var _e$target = e.target,
+            name = _e$target.name,
+            email = _e$target.email;
+        var users = _this.state.users;
+
+        _this.setState({
+          users: [].concat(_toConsumableArray(users), [{
+            name: name.value,
+            email: email.value,
+            id: Math.max.apply(Math, _toConsumableArray(Object.values(users.map(function (user) {
+              return user.id;
+            })))) + 1
+          }])
+        });
+      }, _this.handleDelete = function (id) {
+        _this.setState({
+          users: [].concat(_toConsumableArray(_this.state.users.filter(function (user) {
+            return user.id !== id;
+          })))
+        });
+      }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(UsersApp, [{
@@ -9546,8 +9579,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(AddUsers, null),
-          _react2.default.createElement(UserList, { users: _usersbase2.default })
+          _react2.default.createElement(AddUsers, { handleSubmit: this.handleSubmit }),
+          _react2.default.createElement(UserList, {
+            handleDelete: this.handleDelete,
+            users: this.state.users
+          })
         );
       }
     }]);
@@ -9584,19 +9620,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       _this2.handleSubmit = function (event) {
         event.preventDefault();
-
-        var nameToAdd = _this2.state.name;
-        var emailToAdd = _this2.state.email;
-        var copyNewUsers = _this2.state.newUsers.slice();
-
-        copyNewUsers.unshift(nameToAdd, emailToAdd);
-        _this2.setState({
-          newUsers: copyNewUsers
-        });
+        _this2.props.handleSubmit(event);
+        _this2.handleReset();
       };
 
       _this2.handleReset = function (event) {
-        event.preventDefault();
         _this2.setState({
           name: "",
           email: ""
@@ -9637,8 +9665,8 @@ document.addEventListener('DOMContentLoaded', function () {
             _react2.default.createElement(
               'form',
               { onSubmit: this.handleSubmit },
-              _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleNameChange }),
-              _react2.default.createElement('input', { type: 'text', value: this.state.email, onChange: this.handleEmailChange }),
+              _react2.default.createElement('input', { name: 'name', type: 'text', value: this.state.name, onChange: this.handleNameChange }),
+              _react2.default.createElement('input', { name: 'email', type: 'text', value: this.state.email, onChange: this.handleEmailChange }),
               _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
             ),
             _react2.default.createElement(
@@ -9682,13 +9710,14 @@ document.addEventListener('DOMContentLoaded', function () {
       value: function render() {
         var _this4 = this;
 
-        var listItem = this.state.users.map(function (element) {
+        var listItem = this.props.users.map(function (element) {
           return _react2.default.createElement(UserRow, {
             key: element.email,
             number: element.id,
             userName: element.name,
             userEmail: element.email,
-            onRowDel: _this4.handleRowsDelete.bind(_this4) });
+            handleDelete: _this4.props.handleDelete
+          });
         });
         return _react2.default.createElement(
           'table',
@@ -9732,21 +9761,19 @@ document.addEventListener('DOMContentLoaded', function () {
     _inherits(UserRow, _React$Component4);
 
     function UserRow() {
-      var _ref;
+      var _ref2;
 
-      var _temp, _this5, _ret;
+      var _temp2, _this5, _ret2;
 
       _classCallCheck(this, UserRow);
 
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
       }
 
-      return _ret = (_temp = (_this5 = _possibleConstructorReturn(this, (_ref = UserRow.__proto__ || Object.getPrototypeOf(UserRow)).call.apply(_ref, [this].concat(args))), _this5), _this5.handleRowDel = function (element) {
-        if (typeof _this5.props.onRowDel == 'function') {
-          _this5.props.onRowDel(_this5.props.element);
-        }
-      }, _temp), _possibleConstructorReturn(_this5, _ret);
+      return _ret2 = (_temp2 = (_this5 = _possibleConstructorReturn(this, (_ref2 = UserRow.__proto__ || Object.getPrototypeOf(UserRow)).call.apply(_ref2, [this].concat(args))), _this5), _this5.handleDelete = function () {
+        _this5.props.handleDelete(_this5.props.number);
+      }, _temp2), _possibleConstructorReturn(_this5, _ret2);
     }
 
     _createClass(UserRow, [{
@@ -9773,7 +9800,7 @@ document.addEventListener('DOMContentLoaded', function () {
           _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement('input', { type: 'button', value: 'Remove', onClick: this.handleRowDel.bind(this) })
+            _react2.default.createElement('input', { type: 'button', value: 'Remove', onClick: this.handleDelete })
           )
         );
       }
