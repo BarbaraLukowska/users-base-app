@@ -9531,32 +9531,143 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // import "../scss/style.scss";
 
 document.addEventListener('DOMContentLoaded', function () {
-  var UserList = function (_React$Component) {
-    _inherits(UserList, _React$Component);
+  var UsersApp = function (_React$Component) {
+    _inherits(UsersApp, _React$Component);
+
+    function UsersApp() {
+      _classCallCheck(this, UsersApp);
+
+      return _possibleConstructorReturn(this, (UsersApp.__proto__ || Object.getPrototypeOf(UsersApp)).apply(this, arguments));
+    }
+
+    _createClass(UsersApp, [{
+      key: 'render',
+      value: function render() {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(AddUsers, null),
+          _react2.default.createElement(UserList, { users: _usersbase2.default })
+        );
+      }
+    }]);
+
+    return UsersApp;
+  }(_react2.default.Component);
+
+  var AddUsers = function (_React$Component2) {
+    _inherits(AddUsers, _React$Component2);
+
+    function AddUsers(props) {
+      _classCallCheck(this, AddUsers);
+
+      var _this2 = _possibleConstructorReturn(this, (AddUsers.__proto__ || Object.getPrototypeOf(AddUsers)).call(this, props));
+
+      _this2.handleShowInputs = function () {
+        _this2.setState({
+          displayButton: "none",
+          displayInput: "block"
+        });
+      };
+
+      _this2.handleNameChange = function (event) {
+        _this2.setState({
+          name: event.target.value
+        });
+      };
+
+      _this2.handleEmailChange = function (event) {
+        _this2.setState({
+          email: event.target.value
+        });
+      };
+
+      _this2.handleSubmit = function (event) {
+        event.preventDefault();
+
+        var nameToAdd = _this2.state.name;
+        var emailToAdd = _this2.state.email;
+        var copyNewUsers = _this2.state.newUsers.slice();
+
+        copyNewUsers.unshift(nameToAdd, emailToAdd);
+        _this2.setState({
+          newUsers: copyNewUsers
+        });
+      };
+
+      _this2.state = {
+        displayInput: "none",
+        displayButton: "block",
+        name: "Name...",
+        email: "E-mail...",
+        newUsers: []
+      };
+      return _this2;
+    }
+
+    _createClass(AddUsers, [{
+      key: 'render',
+      value: function render() {
+        var newUsersItem = this.state.newUsers.map(function (item) {
+          return _react2.default.createElement(
+            'div',
+            null,
+            item
+          );
+        });
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { style: { display: this.state.displayButton }, onClick: this.handleShowInputs },
+            'Add User'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { display: this.state.displayInput } },
+            _react2.default.createElement(
+              'form',
+              { onSubmit: this.handleSubmit },
+              _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleNameChange }),
+              _react2.default.createElement('input', { type: 'text', value: this.state.email, onChange: this.handleEmailChange }),
+              _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+            )
+          ),
+          newUsersItem
+        );
+      }
+    }]);
+
+    return AddUsers;
+  }(_react2.default.Component);
+
+  var UserList = function (_React$Component3) {
+    _inherits(UserList, _React$Component3);
 
     function UserList(props) {
       _classCallCheck(this, UserList);
 
-      var _this = _possibleConstructorReturn(this, (UserList.__proto__ || Object.getPrototypeOf(UserList)).call(this, props));
+      var _this3 = _possibleConstructorReturn(this, (UserList.__proto__ || Object.getPrototypeOf(UserList)).call(this, props));
 
-      _this.handleRowsDelete = function (elem, index) {
-        var usersCopy = _this.state.users;
+      _this3.handleRowsDelete = function (elem, index) {
+        var usersCopy = _this3.state.users;
         usersCopy.splice(index, 1);
-        _this.setState({
+        _this3.setState({
           users: usersCopy
         });
       };
 
-      _this.state = {
-        users: _this.props.users
+      _this3.state = {
+        users: _this3.props.users
       };
-      return _this;
+      return _this3;
     }
 
     _createClass(UserList, [{
       key: 'render',
       value: function render() {
-        var _this2 = this;
+        var _this4 = this;
 
         var listItem = this.state.users.map(function (element) {
           return _react2.default.createElement(UserRow, {
@@ -9564,7 +9675,7 @@ document.addEventListener('DOMContentLoaded', function () {
             number: element.id,
             userName: element.name,
             userEmail: element.email,
-            onRowDel: _this2.handleRowsDelete.bind(_this2) });
+            onRowDel: _this4.handleRowsDelete.bind(_this4) });
         });
         return _react2.default.createElement(
           'table',
@@ -9604,13 +9715,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return UserList;
   }(_react2.default.Component);
 
-  var UserRow = function (_React$Component2) {
-    _inherits(UserRow, _React$Component2);
+  var UserRow = function (_React$Component4) {
+    _inherits(UserRow, _React$Component4);
 
     function UserRow() {
       var _ref;
 
-      var _temp, _this3, _ret;
+      var _temp, _this5, _ret;
 
       _classCallCheck(this, UserRow);
 
@@ -9618,11 +9729,11 @@ document.addEventListener('DOMContentLoaded', function () {
         args[_key] = arguments[_key];
       }
 
-      return _ret = (_temp = (_this3 = _possibleConstructorReturn(this, (_ref = UserRow.__proto__ || Object.getPrototypeOf(UserRow)).call.apply(_ref, [this].concat(args))), _this3), _this3.handleRowDel = function (element) {
-        if (typeof _this3.props.onRowDel == 'function') {
-          _this3.props.onRowDel(_this3.props.element);
+      return _ret = (_temp = (_this5 = _possibleConstructorReturn(this, (_ref = UserRow.__proto__ || Object.getPrototypeOf(UserRow)).call.apply(_ref, [this].concat(args))), _this5), _this5.handleRowDel = function (element) {
+        if (typeof _this5.props.onRowDel == 'function') {
+          _this5.props.onRowDel(_this5.props.element);
         }
-      }, _temp), _possibleConstructorReturn(_this3, _ret);
+      }, _temp), _possibleConstructorReturn(_this5, _ret);
     }
 
     _createClass(UserRow, [{
@@ -9658,8 +9769,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return UserRow;
   }(_react2.default.Component);
 
-  var App = function (_React$Component3) {
-    _inherits(App, _React$Component3);
+  var App = function (_React$Component5) {
+    _inherits(App, _React$Component5);
 
     function App() {
       _classCallCheck(this, App);
@@ -9673,7 +9784,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(UserList, { users: _usersbase2.default })
+          _react2.default.createElement(UsersApp, null)
         );
       }
     }]);
