@@ -5,12 +5,19 @@ import usersbase from './usersbase';
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    class UserList extends React.Component {
+  class UserList extends React.Component {
     constructor(props){
       super(props);
       this.state = {
         users: this.props.users
-      }
+        }
+    }
+    handleRowsDelete = (elem, index) => {
+      let usersCopy = this.state.users;
+      usersCopy.splice(index, 1);
+      this.setState({
+        users: usersCopy
+      });
     }
     render(){
       const listItem = this.state.users.map( (element) => {
@@ -18,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function(){
           key = {element.email}
           number={element.id}
           userName={element.name}
-          userEmail={element.email}/>
+          userEmail={element.email}
+          onRowDel={this.handleRowsDelete.bind(this)}/>
       });
       return <table>
         <thead>
@@ -35,7 +43,11 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
   class UserRow extends React.Component {
-
+  handleRowDel = (element) => {
+    if (typeof this.props.onRowDel == 'function') {
+      this.props.onRowDel(this.props.element);
+    }
+  }
   render(){
     return <tr>
             <td>
@@ -48,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function(){
               {this.props.userEmail}
             </td>
             <td>
-              <input type="button" value="X"/>
+              <input type="button" value="Remove" onClick={this.handleRowDel.bind(this)}/>
             </td>
           </tr>
   }
