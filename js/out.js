@@ -9624,7 +9624,8 @@ document.addEventListener('DOMContentLoaded', function () {
         _this2.handleReset();
       };
 
-      _this2.handleReset = function (event) {
+      _this2.handleReset = function (e) {
+        e.preventDefault();
         _this2.setState({
           name: "",
           email: ""
@@ -9635,22 +9636,25 @@ document.addEventListener('DOMContentLoaded', function () {
         displayInput: "none",
         displayButton: "block",
         name: "Name...",
-        email: "E-mail...",
-        newUsers: []
+        email: "E-mail..."
       };
       return _this2;
     }
 
     _createClass(AddUsers, [{
       key: 'render',
+
+      // niepotrzebne?
+      // const newUsersItem = this.state.newUsers.map( (item) => {
+      //   return <div>
+      //     {item}
+      //   </div>
+      // });
+      // {newUsersItem}
+
+
       value: function render() {
-        var newUsersItem = this.state.newUsers.map(function (item) {
-          return _react2.default.createElement(
-            'div',
-            null,
-            item
-          );
-        });
+
         return _react2.default.createElement(
           'div',
           null,
@@ -9674,8 +9678,7 @@ document.addEventListener('DOMContentLoaded', function () {
               { href: true, onClick: this.handleReset },
               'Reset field'
             )
-          ),
-          newUsersItem
+          )
         );
       }
     }]);

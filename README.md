@@ -1,3 +1,3 @@
 # users-base-app
 
-Simple user app built with React.js
+Simple users app built with React.js

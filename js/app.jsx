@@ -50,8 +50,7 @@ document.addEventListener('DOMContentLoaded', function(){
         displayInput: "none",
         displayButton: "block",
         name: "Name...",
-        email: "E-mail...",
-        newUsers: []
+        email: "E-mail..."
       }
     }
 
@@ -80,19 +79,24 @@ document.addEventListener('DOMContentLoaded', function(){
       this.handleReset();
     }
 
-    handleReset = (event) =>{
+    handleReset = (e) =>{
+      e.preventDefault();
       this.setState({
         name: "",
         email: ""
       });
     }
+    // niepotrzebne?
+    // const newUsersItem = this.state.newUsers.map( (item) => {
+    //   return <div>
+    //     {item}
+    //   </div>
+    // });
+    // {newUsersItem}
+
 
     render(){
-      const newUsersItem = this.state.newUsers.map( (item) => {
-        return <div>
-          {item}
-        </div>
-      });
+
       return <div>
           <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs}>Add User</button>
           <div style={{display: this.state.displayInput}}>
@@ -103,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function(){
             </form>
             <a href onClick={this.handleReset}>Reset field</a>
           </div>
-            {newUsersItem}
       </div>
     }
   }
