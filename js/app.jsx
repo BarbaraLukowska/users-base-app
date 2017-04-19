@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import usersbase from './usersbase';
-// import "../scss/style.scss";
+import "../scss/style.scss";
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function(){
       this.state = {
         displayInput: "none",
         displayButton: "block",
-        name: "Name...",
-        email: "E-mail..."
+        name: "",
+        email: ""
       }
     }
 
@@ -96,16 +96,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     render(){
+      const { name, email } = this.state;
+      const isOK = name.length > 0 && name.length < 20 && email.length > 0;
 
       return <div>
           <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs}>Add User</button>
           <div style={{display: this.state.displayInput}}>
             <form onSubmit={this.handleSubmit}>
-              <input name="name" type="text" value={this.state.name} onChange={this.handleNameChange}/>
-              <input name="email" type="text" value={this.state.email} onChange={this.handleEmailChange}/>
-              <input type="submit" value="Submit"/>
+              <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange}/>
+              <input name="email" type="text" value={this.state.email} placeholder="E-mail..." onChange={this.handleEmailChange}/>
+              <input type="submit" value="Submit" disabled={!isOK} className="submit-btn"/>
+              <a href onClick={this.handleReset}>Reset field</a>
             </form>
-            <a href onClick={this.handleReset}>Reset field</a>
           </div>
       </div>
     }
