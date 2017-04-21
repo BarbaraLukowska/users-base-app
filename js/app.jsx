@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
     };
 
     handleSubmit = (e) => {
+
       const { name, email } = e.target;
       const { users } = this.state;
       this.setState({
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     render(){
-      return <div>
+      return <div className="app">
         <AddUsers handleSubmit={ this.handleSubmit }/>
         <UserList
           handleDelete = { this.handleDelete }
@@ -50,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function(){
         displayInput: "none",
         displayButton: "block",
         name: "",
-        email: ""
+        email: "",
+        isOK: true
       }
     }
 
@@ -63,13 +65,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
     handleNameChange = (event) => {
       this.setState({
-        name: event.target.value
+        name: event.target.value,
       });
     }
 
     handleEmailChange = (event) => {
       this.setState({
-        email: event.target.value
+        email: event.target.value,
+        isOK: false
       });
     }
 
@@ -79,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function(){
       this.handleReset();
     }
 
+    // Cannot read property 'preventDefault' of undefined ---- ???
     handleReset = (e) =>{
       e.preventDefault();
       this.setState({
@@ -86,26 +90,15 @@ document.addEventListener('DOMContentLoaded', function(){
         email: ""
       });
     }
-    // niepotrzebne?
-    // const newUsersItem = this.state.newUsers.map( (item) => {
-    //   return <div>
-    //     {item}
-    //   </div>
-    // });
-    // {newUsersItem}
-
 
     render(){
-      const { name, email } = this.state;
-      const isOK = name.length > 0 && name.length < 20 && email.length > 0;
-
       return <div>
           <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs}>Add User</button>
           <div style={{display: this.state.displayInput}}>
             <form onSubmit={this.handleSubmit}>
               <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange}/>
               <input name="email" type="text" value={this.state.email} placeholder="E-mail..." onChange={this.handleEmailChange}/>
-              <input type="submit" value="Submit" disabled={!isOK} className="submit-btn"/>
+              <input type="submit" value="Submit" className="submit-btn" disabled={this.state.isOK}/>
               <a href onClick={this.handleReset}>Reset field</a>
             </form>
           </div>
