@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import usersbase from './usersbase';
 import "../scss/style.scss";
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function() {
 
   class UsersApp extends React.Component {
     state = {
@@ -11,13 +11,11 @@ document.addEventListener('DOMContentLoaded', function(){
     };
 
     handleSubmit = (e) => {
-
-      const { name, email } = e.target;
-      const { users } = this.state;
+      const {name, email} = e.target;
+      const {users} = this.state;
       this.setState({
         users: [
-          ...users,
-          {
+          ...users, {
             name: name.value,
             email: email.value,
             id: Math.max(...Object.values(users.map((user) => user.id))) + 1
@@ -28,24 +26,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
     handleDelete = (id) => {
       this.setState({
-        users: [
-          ...this.state.users.filter((user) => user.id !== id)
-        ]
+        users: [...this.state.users.filter((user) => user.id !== id)]
       });
     }
 
-    render(){
-      return <div className="app">
-        <AddUsers handleSubmit={ this.handleSubmit }/>
-        <UserList
-          handleDelete = { this.handleDelete }
-          users={ this.state.users }
-        />
+    render() {
+      return <div className="users-app">
+        <AddUsers handleSubmit={this.handleSubmit}/>
+        <UserList handleDelete={this.handleDelete} users={this.state.users}/>
       </div>
     };
   }
   class AddUsers extends React.Component {
-    constructor(props){
+    constructor(props) {
       super(props);
       this.state = {
         displayInput: "none",
@@ -58,22 +51,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
     handleShowInputs = () => {
       this.setState({
-        displayButton: "none",
-        displayInput: "block"
+          displayButton: "none",
+          displayInput: "block"
       });
     }
 
     handleNameChange = (event) => {
-      this.setState({
-        name: event.target.value,
-      });
+      this.setState({name: event.target.value});
     }
 
     handleEmailChange = (event) => {
-      this.setState({
-        email: event.target.value,
-        isOK: false
-      });
+      this.setState({email: event.target.value, isOK: false});
     }
 
     handleSubmit = (event) => {
@@ -83,53 +71,48 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     // Cannot read property 'preventDefault' of undefined ---- ???
-    handleReset = (e) =>{
+    handleReset = (e) => {
       e.preventDefault();
       this.setState({
-        name: "",
-        email: ""
+          name: "",
+          email: ""
       });
-    }
+  }
 
-    render(){
-      return <div>
-          <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs}>Add User</button>
-          <div style={{display: this.state.displayInput}}>
-            <form onSubmit={this.handleSubmit}>
-              <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange}/>
-              <input name="email" type="text" value={this.state.email} placeholder="E-mail..." onChange={this.handleEmailChange}/>
-              <input type="submit" value="Submit" className="submit-btn" disabled={this.state.isOK}/>
-              <a href onClick={this.handleReset}>Reset field</a>
-            </form>
-          </div>
+    render() {
+      return <div className="add-users">
+        <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs} className="add-btn">Add User</button>
+        <form style={{display: this.state.displayInput}} onSubmit={this.handleSubmit}>
+             <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange}/>
+             <input name="email" type="text" value={this.state.email} placeholder="E-mail..." onChange={this.handleEmailChange}/>
+             <input type="submit" value="Submit" className="submit-btn" disabled={this.state.isOK}/>
+             <a href onClick={this.handleReset}>Reset fields</a>
+        </form>
       </div>
     }
   }
 
   class UserList extends React.Component {
-    constructor(props){
+    constructor(props) {
       super(props);
       this.state = {
         users: this.props.users
-        }
+      }
     }
 
     handleRowsDelete = (elem, index) => {
       let usersCopy = this.state.users;
       usersCopy.splice(index, 1);
-      this.setState({
-        users: usersCopy
-      });
+      this.setState({users: usersCopy});
     }
-    render(){
-      const listItem = this.props.users.map( (element) => {
+    render() {
+      const listItem = this.props.users.map((element) => {
         return <UserRow
-          key={element.email}
-          number={element.id}
-          userName={element.name}
-          userEmail={element.email}
-          handleDelete={ this.props.handleDelete }
-        />
+            key={element.email}
+            number={element.id}
+            userName={element.name}
+            userEmail={element.email}
+            handleDelete={this.props.handleDelete}/>
       });
       return <table>
         <thead>
@@ -147,37 +130,35 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   class UserRow extends React.Component {
 
-  handleDelete = () => {
-    this.props.handleDelete(this.props.number);
-  }
+    handleDelete = () => {
+      this.props.handleDelete(this.props.number);
+    }
 
-  render(){
-    return <tr>
-            <td>
-              {this.props.number}
-            </td>
-            <td>
-              {this.props.userName}
-            </td>
-            <td>
-              {this.props.userEmail}
-            </td>
-            <td>
-              <input type="button" value="Remove" onClick={ this.handleDelete }/>
-            </td>
-          </tr>
+    render() {
+      return <tr>
+        <td>
+          {this.props.number}
+        </td>
+        <td>
+          {this.props.userName}
+        </td>
+        <td>
+          {this.props.userEmail}
+        </td>
+        <td>
+          <input type="button" value="Remove" onClick={this.handleDelete} className="remove-btn"/>
+        </td>
+      </tr>
+    }
   }
-}
 
   class App extends React.Component {
-    render(){
-      return <div>
+    render() {
+      return <div className="container">
         <UsersApp/>
       </div>
     }
   }
   ReactDOM.render(
-      <App/>,
-      document.getElementById('app')
-  );
+    <App/>, document.getElementById('app'));
 });

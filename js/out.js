@@ -9578,12 +9578,9 @@ document.addEventListener('DOMContentLoaded', function () {
       value: function render() {
         return _react2.default.createElement(
           'div',
-          { className: 'app' },
+          { className: 'users-app' },
           _react2.default.createElement(AddUsers, { handleSubmit: this.handleSubmit }),
-          _react2.default.createElement(UserList, {
-            handleDelete: this.handleDelete,
-            users: this.state.users
-          })
+          _react2.default.createElement(UserList, { handleDelete: this.handleDelete, users: this.state.users })
         );
       }
     }]);
@@ -9607,16 +9604,11 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       _this2.handleNameChange = function (event) {
-        _this2.setState({
-          name: event.target.value
-        });
+        _this2.setState({ name: event.target.value });
       };
 
       _this2.handleEmailChange = function (event) {
-        _this2.setState({
-          email: event.target.value,
-          isOK: false
-        });
+        _this2.setState({ email: event.target.value, isOK: false });
       };
 
       _this2.handleSubmit = function (event) {
@@ -9651,26 +9643,22 @@ document.addEventListener('DOMContentLoaded', function () {
       value: function render() {
         return _react2.default.createElement(
           'div',
-          null,
+          { className: 'add-users' },
           _react2.default.createElement(
             'button',
-            { style: { display: this.state.displayButton }, onClick: this.handleShowInputs },
+            { style: { display: this.state.displayButton }, onClick: this.handleShowInputs, className: 'add-btn' },
             'Add User'
           ),
           _react2.default.createElement(
-            'div',
-            { style: { display: this.state.displayInput } },
+            'form',
+            { style: { display: this.state.displayInput }, onSubmit: this.handleSubmit },
+            _react2.default.createElement('input', { name: 'name', type: 'text', value: this.state.name, placeholder: 'Name...', onChange: this.handleNameChange }),
+            _react2.default.createElement('input', { name: 'email', type: 'text', value: this.state.email, placeholder: 'E-mail...', onChange: this.handleEmailChange }),
+            _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'submit-btn', disabled: this.state.isOK }),
             _react2.default.createElement(
-              'form',
-              { onSubmit: this.handleSubmit },
-              _react2.default.createElement('input', { name: 'name', type: 'text', value: this.state.name, placeholder: 'Name...', onChange: this.handleNameChange }),
-              _react2.default.createElement('input', { name: 'email', type: 'text', value: this.state.email, placeholder: 'E-mail...', onChange: this.handleEmailChange }),
-              _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'submit-btn', disabled: this.state.isOK }),
-              _react2.default.createElement(
-                'a',
-                { href: true, onClick: this.handleReset },
-                'Reset field'
-              )
+              'a',
+              { href: true, onClick: this.handleReset },
+              'Reset fields'
             )
           )
         );
@@ -9691,9 +9679,7 @@ document.addEventListener('DOMContentLoaded', function () {
       _this3.handleRowsDelete = function (elem, index) {
         var usersCopy = _this3.state.users;
         usersCopy.splice(index, 1);
-        _this3.setState({
-          users: usersCopy
-        });
+        _this3.setState({ users: usersCopy });
       };
 
       _this3.state = {
@@ -9713,8 +9699,7 @@ document.addEventListener('DOMContentLoaded', function () {
             number: element.id,
             userName: element.name,
             userEmail: element.email,
-            handleDelete: _this4.props.handleDelete
-          });
+            handleDelete: _this4.props.handleDelete });
         });
         return _react2.default.createElement(
           'table',
@@ -9797,7 +9782,7 @@ document.addEventListener('DOMContentLoaded', function () {
           _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement('input', { type: 'button', value: 'Remove', onClick: this.handleDelete })
+            _react2.default.createElement('input', { type: 'button', value: 'Remove', onClick: this.handleDelete, className: 'remove-btn' })
           )
         );
       }
@@ -9820,7 +9805,7 @@ document.addEventListener('DOMContentLoaded', function () {
       value: function render() {
         return _react2.default.createElement(
           'div',
-          null,
+          { className: 'container' },
           _react2.default.createElement(UsersApp, null)
         );
       }
@@ -10331,7 +10316,7 @@ exports = module.exports = __webpack_require__(84)();
 
 
 // module
-exports.push([module.i, ".sumbmit-btn {\n  cursor: pointer;\n  transition: opacity .3s ease-out; }\n  .sumbmit-btn[disabled] {\n    cursor: auto;\n    opacity: .2; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box; }\n\nbody {\n  width: 100vw;\n  height: 100vh;\n  background-color: #87225e;\n  display: flex;\n  justify-content: center;\n  font-size: 1rem; }\n  body .container {\n    width: 50vw;\n    margin: 100px 0; }\n    body .container .users-app {\n      background-color: #ffb2dd;\n      box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1); }\n      body .container .users-app .add-users {\n        height: 10vh;\n        display: flex; }\n        body .container .users-app .add-users .add-btn {\n          width: 150px;\n          height: 40px;\n          background-color: white;\n          border: 2px solid #c94f7c;\n          border-radius: 6px;\n          margin-top: 3vh;\n          margin-left: 30px;\n          font-size: 1.15rem;\n          font-weight: 600;\n          color: #c94f7c;\n          cursor: pointer; }\n          body .container .users-app .add-users .add-btn:hover {\n            background-color: #c94f7c;\n            color: white; }\n", ""]);
 
 // exports
 
