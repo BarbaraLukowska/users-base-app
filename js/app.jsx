@@ -58,7 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     handleNameChange = (event) => {
-      this.setState({name: event.target.value});
+        //only letters and 20 characters (TODO fixed polish characters)
+      const extract = (str, pattern) => (str.match(pattern) || []).pop() || '';
+      const extractLetters = (str) => extract(str, "[a-zA-Z]+$");
+
+      this.setState({
+          name: extractLetters(event.target.value)
+      });
       if (event.target.value.length === 20) {
           this.setState({
              isDisabled: true
