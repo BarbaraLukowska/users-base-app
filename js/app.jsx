@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
         displayButton: "block",
         name: "",
         email: "",
-        isOK: true
+        isOK: true,
+        isDisabled: false
       }
     }
 
@@ -58,6 +59,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     handleNameChange = (event) => {
       this.setState({name: event.target.value});
+      if (event.target.value.length === 20) {
+          this.setState({
+             isDisabled: true
+          });
+      }
     }
 
     handleEmailChange = (event) => {
@@ -83,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return <div className="add-users">
         <button style={{display: this.state.displayButton}} onClick={this.handleShowInputs} className="add-btn">Add User</button>
         <form style={{display: this.state.displayInput}} onSubmit={this.handleSubmit}>
-             <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange}/>
+             <input name="name" type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameChange} disabled={this.state.isDisabled}/>
              <input name="email" type="text" value={this.state.email} placeholder="E-mail..." onChange={this.handleEmailChange}/>
              <input type="submit" value="Submit" className="submit-btn" disabled={this.state.isOK}/>
              <a href onClick={this.handleReset}>Reset fields</a>

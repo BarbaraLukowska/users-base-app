@@ -9605,6 +9605,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       _this2.handleNameChange = function (event) {
         _this2.setState({ name: event.target.value });
+        if (event.target.value.length === 20) {
+          _this2.setState({
+            isDisabled: true
+          });
+        }
       };
 
       _this2.handleEmailChange = function (event) {
@@ -9630,7 +9635,8 @@ document.addEventListener('DOMContentLoaded', function () {
         displayButton: "block",
         name: "",
         email: "",
-        isOK: true
+        isOK: true,
+        isDisabled: false
       };
       return _this2;
     }
@@ -9652,7 +9658,7 @@ document.addEventListener('DOMContentLoaded', function () {
           _react2.default.createElement(
             'form',
             { style: { display: this.state.displayInput }, onSubmit: this.handleSubmit },
-            _react2.default.createElement('input', { name: 'name', type: 'text', value: this.state.name, placeholder: 'Name...', onChange: this.handleNameChange }),
+            _react2.default.createElement('input', { name: 'name', type: 'text', value: this.state.name, placeholder: 'Name...', onChange: this.handleNameChange, disabled: this.state.isDisabled }),
             _react2.default.createElement('input', { name: 'email', type: 'text', value: this.state.email, placeholder: 'E-mail...', onChange: this.handleEmailChange }),
             _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'submit-btn', disabled: this.state.isOK }),
             _react2.default.createElement(
